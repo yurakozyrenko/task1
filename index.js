@@ -1,6 +1,7 @@
-// task #1
-
+//task1
 let express = require('express');
+
+require('dotenv').config();
 
 const app = express();
 
@@ -25,13 +26,17 @@ app.post('/user', (req, res) => {
 });
 
 app.put('/user/:id', (req, res) => {
-    const updatedUsers = users.map( i => i.id == req.params.id ? req.body : i );
+    const updatedUsers = users.map(i =>
+        i.id == req.params.id ? req.body : i
+    );
     users.splice(0, users.length, ...updatedUsers);
     res.send(updatedUsers);
 });
 
 app.patch('/user/:id', (req, res) => {
-    const updatedUsers = users.map( i => i.id == req.params.id ? { ...i, name: req.body.name } : i );
+    const updatedUsers = users.map(i =>
+        i.id == req.params.id ? { ...i, name: req.body.name } : i
+    );
     users.splice(0, users.length, ...updatedUsers);
     res.send(updatedUsers);
 });
@@ -52,11 +57,11 @@ app.get('/users/:gender', (req, res) => {
 });
 
 app.get('/filtredUsers', (req, res) => {
-    res.send( users.filter( el => el.age > req.query.min && el.age < req.query.max )
+    res.send(
+        users.filter(el => el.age > req.query.min && el.age < req.query.max)
     );
 });
 
-const port = 3000;
-app.listen(port, () => {
+app.listen(process.env.PORT, () => {
     console.log('Server started');
 });
